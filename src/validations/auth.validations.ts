@@ -1,6 +1,8 @@
+import { injectable } from 'tsyringe';
 import Joi from "joi";
 import { BaseValidation } from "./baseValidation";
 
+@injectable()
 export class AuthValidations extends BaseValidation {
   public signUp = this.validateRequest(
     Joi.object({

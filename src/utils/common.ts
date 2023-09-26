@@ -46,5 +46,5 @@ export const setSuccessResponse = (
 });
 
 export const handleError = (path: string, error: unknown) => {
-  logs.red(`${path} :: ${error}`);
+  logs.red(`${path} :: ${(error as Error)?.message}`);
 };

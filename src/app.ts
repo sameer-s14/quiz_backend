@@ -1,6 +1,7 @@
-import { AuthRoute } from "./routes/auth.route";
 import express, { Request } from "express";
 import cors from "cors";
+import "reflect-metadata";
+import { AuthRoute } from "./routes/auth.route";
 import { configs } from "./configs";
 import { connectDatabase } from "./database/connection";
 import { Routes } from "./interfaces";

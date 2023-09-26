@@ -1,6 +1,8 @@
+import { injectable } from "tsyringe";
 import { userModel } from "../database";
 import { IUser } from "./../interfaces/user.interface";
 
+injectable();
 export class AuthRepository {
   //Function to get user data
 
