@@ -16,4 +16,8 @@ export const configs = {
   },
   NODE_ENV,
   SALT_ROUND: 10,
+  JWT: {
+    SECRET: getEnv("JWT_SECRET"),
+    EXPIRES_IN: getEnv("JWT_EXPIRES_IN"),
+  },
 };

@@ -1,4 +1,3 @@
-import { NextFunction } from "express";
 import { Schema, model } from "mongoose";
 import { USER_ROLES } from "../constants";
 import { IUser } from "../interfaces";
@@ -46,11 +45,19 @@ const userSchema = new Schema(
 );
 
 // Encrypt password using bcrypt
-// userSchema.pre("save", async function (this: IUser, next: NextFunction) {
-//   if (!this.isModified("password")) return next();
-//   this.password = await bcryptService.hashPassword(this.password);
-//   return next();
-// });
+userSchema.pre<IUser>(/save/, async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcryptService.hashPassword(this.password);
+  return next();
+});
+
+userSchema.virtual('id').get(function(){
+  return this._id.toHexString();
+});
+
+userSchema.set('toJSON', {
+  virtuals: true
+});
 
 // Compare password using bcrypt
 userSchema.methods.matchPassword = async function (enteredPassword: string) {

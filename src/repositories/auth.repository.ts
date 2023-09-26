@@ -6,7 +6,7 @@ injectable();
 export class AuthRepository {
   //Function to get user data
 
-  getUserData = (where: { email?: string }) => {
+  getUserData = (where: Partial<Pick<IUser, "email" | "id" | '_id'>>) => {
     return userModel.findOne({ ...where });
   };
 

@@ -1,3 +1,4 @@
+import { authMiddleware } from "./../middlewares/auth.middleware";
 import { Router } from "express";
 import { injectable, container } from "tsyringe";
 import { AuthController } from "../controllers";
@@ -17,10 +18,26 @@ class Route implements Routes {
   }
 
   private initializeRoutes(): void {
+    // Sign Up Route
     this.router.post(
       `${this.path}signup`,
       this.authValidation.signUp,
       this.authController.signUp
+    );
+
+    // Log In Route
+    this.router.post(
+      `${this.path}login`,
+      this.authValidation.login,
+      this.authController.login
+    );
+
+    // Get Users Details
+
+    this.router.get(
+      `${this.path}user-profile`,
+      authMiddleware,
+      this.authController.getUsersProfile
     );
   }
 }
