@@ -1,5 +1,6 @@
 import { MONGOOSE_EVENTS, MONGOOSE_EVENTS_LOGS_MESSAGES } from "../constants";
 import { logs } from "../helpers";
+import { IResponse } from "../interfaces";
 
 export const getEnv = (key: string) => {
   const envValue = process.env[key];
@@ -24,4 +25,26 @@ export const handleMongooseLogs = (event: MONGOOSE_EVENTS): void => {
     logs.red(MONGOOSE_EVENTS_LOGS_MESSAGES.ERROR);
   if (event === MONGOOSE_EVENTS.RECONNECTING)
     logs.green(MONGOOSE_EVENTS_LOGS_MESSAGES.RECONNECTING);
+};
+
+// Function to return response object
+export const initResponse = (): IResponse => {
+  return {
+    status: false,
+    message: "",
+    data: null,
+  };
+};
+
+export const setSuccessResponse = (
+  message = "Success",
+  data: unknown = null
+): IResponse => ({
+  status: true,
+  message,
+  data,
+});
+
+export const handleError = (path: string, error: unknown) => {
+  logs.red(`${path} :: ${error}`);
 };

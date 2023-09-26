@@ -1,1 +1,3 @@
-import './app';
+import { ApplicationInstance } from './app';
+
+ApplicationInstance.init();

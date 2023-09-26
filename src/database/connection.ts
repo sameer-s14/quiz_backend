@@ -3,8 +3,9 @@ import mongoose from "mongoose";
 import { MONGOOSE_EVENTS } from "../constants/db.constants";
 import { handleMongooseLogs } from "../utils";
 
-export const connectDatabase = () => {
-  return mongoose.connect(configs.MONGO_URI);
+export const connectDatabase = async () => {
+  await mongoose.connect(configs.MONGO_URI);
+  return mongoose.STATES[mongoose.connection.readyState];
 };
 // HANDLE THE CONNECTING EVENT
 mongoose.connection.on(
