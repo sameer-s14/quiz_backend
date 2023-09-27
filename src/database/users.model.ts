@@ -68,4 +68,4 @@ userSchema.methods.matchPassword = async function (enteredPassword: string) {
   return isMatch;
 };
 
-export const userModel = model<IUser & Document>("User", userSchema);
+export const userModel = model<IUser & Document>("users", userSchema);

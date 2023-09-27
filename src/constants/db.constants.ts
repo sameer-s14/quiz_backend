@@ -17,3 +17,15 @@ export const enum MONGOOSE_EVENTS_LOGS_MESSAGES {
   RECONNECTING = "Database reconnected successfully !!",
   ERROR = "An Error occurred in Database ::",
 }
+
+export enum LEVELS {
+  BEGINNER = "beginner",
+  INTERMEDIATE = "intermediate",
+  EXPERT = "expert",
+}
+
+export enum LEAN_PLUGINS {
+  VIRTUALS = "mongoose-lean-virtuals",
+  GETTERS = "mongoose-lean-getters",
+  DEFAULTS = "mongoose-lean-defaults",
+}

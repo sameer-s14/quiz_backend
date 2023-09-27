@@ -17,5 +17,3 @@ export class AuthRepository {
     return userModel.create(userData);
   };
 }
-
-export const authRepository = new AuthRepository();

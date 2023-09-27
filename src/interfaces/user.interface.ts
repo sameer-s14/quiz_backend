@@ -1,11 +1,6 @@
 import { Document } from "mongoose";
 import { USER_ROLES } from "../constants";
-
-export interface BaseModel {
-  _id: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { BaseModel } from "./common.interface";
 
 export interface IUser extends Omit<BaseModel, '_id'>, Document {
   firstName: string;

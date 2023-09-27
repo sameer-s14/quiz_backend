@@ -2,7 +2,7 @@ import { AuthRepository } from "./../repositories/auth.repository";
 import { JwtService } from "./../services/jwt.service";
 import { NextFunction, Response, Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
-import { ErrorMessage } from "../constants";
+import { ERROR_MESSAGES } from "../constants";
 import { handleError } from "../utils";
 
 const jwtService = new JwtService();
@@ -23,25 +23,25 @@ export const authMiddleware = async (
     }
 
     if (!token) {
-      throw new Error(ErrorMessage.NOT_LOGGED_IN);
+      throw new Error(ERROR_MESSAGES.NOT_LOGGED_IN);
     }
 
     // 2) Verification token
     const decoded = jwtService.verifyToken(token) as { id: string };
     if (!decoded || !decoded["id"]) {
-      throw new Error(ErrorMessage.USER_WITH_TOKEN_NOT_EXIST);
+      throw new Error(ERROR_MESSAGES.USER_WITH_TOKEN_NOT_EXIST);
     }
 
     // 3) Check if user still exists
     const currentUser = await authRepository.getUserData({ _id: decoded["id"] });
     if (!currentUser) {
-      throw new Error(ErrorMessage.USER_WITH_TOKEN_NOT_EXIST);
+      throw new Error(ERROR_MESSAGES.USER_WITH_TOKEN_NOT_EXIST);
     }
 
     // Check if user changed password after the token was issued
     //   if (currentUser?.changedPasswordAfter(decoded["iat"])) {
     //     return next(
-    //       new UnauthorizedException(ErrorMessage.RECENTLY_CHANGED_PASSWORD)
+    //       new UnauthorizedException(ERROR_MESSAGES.RECENTLY_CHANGED_PASSWORD)
     //     );
     //   }
 

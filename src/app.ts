@@ -1,13 +1,14 @@
-import express, { Request } from "express";
+import express, { Request, Router } from "express";
 import cors from "cors";
 import "reflect-metadata";
 import { AuthRoute } from "./routes/auth.route";
 import { configs } from "./configs";
 import { connectDatabase } from "./database/connection";
 import { Routes } from "./interfaces";
-import { MONGOOSE_EVENTS, RoutesConstants } from "./constants";
+import { MONGOOSE_EVENTS, RoutesConstants, VERSIONS } from "./constants";
 import { errorMiddleware } from "./middlewares";
 import { logs } from "./helpers";
+import { TopicsRoute } from "./routes";
 export class Application {
   public app: express.Application;
   private port: number;
@@ -48,8 +49,11 @@ export class Application {
   }
 
   private initializeRoutes(): void {
-    const routes: Routes[] = [AuthRoute];
-    routes?.forEach((route) => this.app.use(route?.path, route.router));
+    const routes: Routes[] = [AuthRoute, TopicsRoute];
+    routes?.forEach((route) => {
+      this.logRoutes(route.router);
+      return this.app.use(VERSIONS.V1 + route?.path, route.router);
+    });
   }
 
   private initializeErrorHandling(): void {
@@ -57,6 +61,17 @@ export class Application {
       throw new Error(`Can't find ${req?.originalUrl} on this server!`);
     });
     this.app.use(errorMiddleware);
+  }
+
+  private logRoutes(router: Router): void {
+    router.stack.forEach((layer: any) => {
+      if (layer.route) {
+        console.log(
+          `${Object.keys(layer.route?.methods)[0]?.toUpperCase()}`.blue,
+          `: ${layer.route?.path}`
+        );
+      }
+    });
   }
 
   private listen(): void {

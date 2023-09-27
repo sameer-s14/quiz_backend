@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { Document } from "mongoose";
 
 export interface Routes {
   path: string;
@@ -10,3 +11,13 @@ export interface IResponse<T = unknown> {
   message?: string;
   data?: T;
 }
+
+export interface BaseModel {
+  _id?: string;
+  id?:string;
+  isActive?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export type DB_Model<model> = model & Omit<BaseModel, "_id"> & Document;

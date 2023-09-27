@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { injectable } from "tsyringe";
-import { AuthRepository, authRepository } from "../repositories";
+import { AuthRepository } from "../repositories";
 import { JwtService } from "../services";
 import { handleError, setSuccessResponse } from "../utils";
 /**
