@@ -27,5 +27,7 @@ const questionSchema = new Schema(
   { timestamps: true }
 );
 
-export const Questions = model<DB_Model<IQuestion>>("questions", questionSchema);
-
+export const Questions = model<DB_Model<IQuestion>>(
+  "questions",
+  questionSchema
+);

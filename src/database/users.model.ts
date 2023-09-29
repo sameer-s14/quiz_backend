@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, CallbackError } from "mongoose";
 import { USER_ROLES } from "../constants";
 import { IUser } from "../interfaces";
 import { bcryptService } from "../services";
@@ -45,18 +45,28 @@ const userSchema = new Schema(
 );
 
 // Encrypt password using bcrypt
-userSchema.pre<IUser>(/save/, async function (next) {
+userSchema.pre<IUser>("save", function (next) {
+  console.log(
+    "🚀 ~ file: users.model.ts:53 ~ bcryptService.hashPassword ~ res:"
+  );
   if (!this.isModified("password")) return next();
-  this.password = await bcryptService.hashPassword(this.password);
-  return next();
+  bcryptService
+    .hashPassword(this.password)
+    .then((res) => {
+      this.password = res;
+      next();
+    })
+    .catch((error) => {
+      return next(error as CallbackError);
+    });
 });
 
-userSchema.virtual('id').get(function(){
+userSchema.virtual("id").get(function () {
   return this._id.toHexString();
 });
 
-userSchema.set('toJSON', {
-  virtuals: true
+userSchema.set("toJSON", {
+  virtuals: true,
 });
 
 // Compare password using bcrypt

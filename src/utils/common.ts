@@ -1,4 +1,9 @@
-import { MONGOOSE_EVENTS, MONGOOSE_EVENTS_LOGS_MESSAGES } from "../constants";
+import { USER_ROLES } from "./../constants/common.constants";
+import {
+  MONGOOSE_EVENTS,
+  MONGOOSE_EVENTS_LOGS_MESSAGES,
+  ObjectIdRegex,
+} from "../constants";
 import { logs } from "../helpers";
 import { IResponse } from "../interfaces";
 
@@ -48,3 +53,16 @@ export const setSuccessResponse = (
 export const handleError = (path: string, error: unknown) => {
   logs.red(`${path} :: ${(error as Error)?.message}`);
 };
+
+export const getEnumValues = (enumObj: any): string[] => Object.values(enumObj);
+
+export const isUser = (role: USER_ROLES) => role === USER_ROLES.USER;
+
+export const projection = (...keys: string[]) => {
+  return keys.reduce((acc: Record<string, number>, curr: string) => {
+    acc[curr] = 1;
+    return acc;
+  }, {});
+};
+
+export const validateObjectId = (id: string) => ObjectIdRegex.test(id);

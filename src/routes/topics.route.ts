@@ -1,14 +1,14 @@
-import { authMiddleware } from "./../middlewares/auth.middleware";
+import { authMiddleware, validateRoles } from "./../middlewares";
 import { Router } from "express";
 import { injectable, container } from "tsyringe";
-import { AuthController, TopicsController } from "../controllers";
+import { TopicsController } from "../controllers";
 import { Routes } from "../interfaces";
-import { AuthValidations, TopicsValidations } from "../validations";
-import { RoutesConstants } from "../constants";
+import { TopicsValidations } from "../validations";
+import { RoutesConstants, USER_ROLES } from "../constants";
 
 @injectable()
 class Route implements Routes {
-  public path = "/";
+  private readonly path = RoutesConstants.TOPICS;
   public router = Router();
 
   constructor(
@@ -20,34 +20,37 @@ class Route implements Routes {
 
   private initializeRoutes(): void {
     this.router.post(
-      `${this.path}topics`,
+      `${this.path}`,
       authMiddleware,
+      validateRoles(USER_ROLES.ADMIN),
       this.topicsValidation.create,
       this.topicsController.createTopic
     );
 
     this.router.put(
-      `${this.path}topics/:id`,
+      `${this.path}/:id`,
       authMiddleware,
+      validateRoles(USER_ROLES.ADMIN),
       this.topicsValidation.update,
       this.topicsController.editTopics
     );
 
     this.router.get(
-      `${this.path}topics`,
+      `${this.path}`,
       authMiddleware,
       this.topicsController.getAllTopic
     );
 
     this.router.get(
-      `${this.path}topics/:id`,
+      `${this.path}/:id`,
       authMiddleware,
       this.topicsController.getTopic
     );
 
     this.router.delete(
-      `${this.path}topics/:id`,
+      `${this.path}/:id`,
       authMiddleware,
+      validateRoles(USER_ROLES.ADMIN),
       this.topicsController.deleteTopic
     );
   }

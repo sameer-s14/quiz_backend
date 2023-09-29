@@ -23,7 +23,9 @@ const optionSchema = new Schema(
       default: true,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 export const Options = model<DB_Model<IOptions>>("options", optionSchema);

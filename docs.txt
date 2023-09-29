@@ -1,0 +1,30 @@
+Implementation
+Add: Filter and Pagination to all get apis
+
+Issues
+1. Password is not hashing on updates
+
+Create Question Request
+{
+    "text": "What is Js?",
+    "topicId": "651667823c8c9e56b5f112e0",
+    "level": "beginner",
+    "options": [
+        {
+            "text": "Programming Language",
+            "isCorrect": false
+        },
+        {
+            "text": "Scripting Language",
+            "isCorrect": false
+        },
+        {
+            "text": "Compiler Language",
+            "isCorrect": false
+        },
+        {
+            "text": "Markup Language",
+            "isCorrect": false
+        }
+    ]
+}

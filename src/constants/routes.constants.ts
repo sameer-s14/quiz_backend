@@ -14,9 +14,8 @@ export const RoutesConstants = {
     ALL: "/",
     DETAIL: "/:id",
   },
-  TOPICS: {
-    DEFAULT: "/topics",
-  },
+  TOPICS: "/topics",
+  QUESTIONS: "/questions",
   HEALTH: "/health",
   NOT_FOUND: "*",
 };

@@ -2,7 +2,7 @@ import { Document } from "mongoose";
 import { USER_ROLES } from "../constants";
 import { BaseModel } from "./common.interface";
 
-export interface IUser extends Omit<BaseModel, '_id'>, Document {
+export interface IUser extends Omit<BaseModel, "_id" | "id">, Document {
   firstName: string;
   lastName: string;
   email: string;

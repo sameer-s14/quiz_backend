@@ -43,15 +43,17 @@ export class AuthController {
       const userFound = await this.authRepository
         .getUserData({ email })
         .select("+password");
+
       if (!userFound || !(await userFound?.matchPassword(password))) {
         throw new Error(`Invalid Email or Password`);
       }
-      return res.json(
-        setSuccessResponse(
-          "Sign Up Successfully",
-          this.jwtService.createToken({ id: userFound?.id })
-        )
-      );
+
+      const data = {
+        ...this.jwtService.createToken({ id: userFound?.id }),
+        role: userFound?.role,
+      };
+
+      return res.json(setSuccessResponse("Sign Up Successfully", data));
     } catch (error) {
       handleError("AuthController :: signUp", error);
       next(error);
@@ -63,6 +65,7 @@ export class AuthController {
       const userFound = await this.authRepository
         .getUserData({ _id: (req as any)?.user?.id })
         .select("firstName lastName email isVerified isActive");
+        
       return res.json(setSuccessResponse("Sign Up Successfully", userFound));
     } catch (error) {
       handleError("AuthController :: signUp", error);

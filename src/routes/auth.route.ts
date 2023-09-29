@@ -7,7 +7,7 @@ import { AuthValidations } from "../validations";
 
 @injectable()
 class Route implements Routes {
-  public path = `/`;
+  private readonly path = `/`;
   public router = Router();
 
   constructor(

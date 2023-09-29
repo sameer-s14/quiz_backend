@@ -1,7 +1,6 @@
 import { AuthRepository } from "./../repositories/auth.repository";
 import { JwtService } from "./../services/jwt.service";
 import { NextFunction, Response, Request } from "express";
-import { JwtPayload } from "jsonwebtoken";
 import { ERROR_MESSAGES } from "../constants";
 import { handleError } from "../utils";
 
@@ -33,7 +32,9 @@ export const authMiddleware = async (
     }
 
     // 3) Check if user still exists
-    const currentUser = await authRepository.getUserData({ _id: decoded["id"] });
+    const currentUser = await authRepository.getUserData({
+      _id: decoded["id"],
+    });
     if (!currentUser) {
       throw new Error(ERROR_MESSAGES.USER_WITH_TOKEN_NOT_EXIST);
     }
@@ -53,3 +54,17 @@ export const authMiddleware = async (
     return next(err);
   }
 };
+
+export const validateRoles =
+  (...roles: string[]) =>
+  async (req: any, _: Response, next: NextFunction) => {
+    try {
+      if (roles?.length && roles.includes(req?.user?.role)) {
+        return next();
+      }
+      throw new Error("You are not allowed to access this route !!");
+    } catch (err) {
+      handleError("Auth MiddleWare :: validateRoles", err);
+      return next(err);
+    }
+  };

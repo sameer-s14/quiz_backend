@@ -7,6 +7,7 @@ export const connectDatabase = async () => {
   await mongoose.connect(configs.MONGO_URI);
   return mongoose.STATES[mongoose.connection.readyState];
 };
+
 // HANDLE THE CONNECTING EVENT
 mongoose.connection.on(
   MONGOOSE_EVENTS.CONNECTING,
